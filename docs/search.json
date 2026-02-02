@@ -1,0 +1,58 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Aquatic Ecology Seminar Spring 2026",
+    "section": "",
+    "text": "Class Code\n  \n  \n    \n     Ohio EPA\n  \n  \n    \n     Mack\n  \n\n  \n  \nThis seminar is designed as a collaborative, research-driven experience that mirrors the process of conducting and communicating science as a team. Together, we will develop a shared research question rooted in contemporary issues in aquatic ecology, analyze empirical datasets using R, and work collectively toward drafting a manuscript suitable for submission to a peer-reviewed journal.\n\n\n Fridays 9:30-10:30 AM in Research Center Rm 124. However, student-led meetings outside of class is encouraged."
+  },
+  {
+    "objectID": "index.html#about-the-instructors",
+    "href": "index.html#about-the-instructors",
+    "title": "Aquatic Ecology Seminar Spring 2026",
+    "section": "About the Instructors",
+    "text": "About the Instructors\n\nDr. Casey Pennock\n Dr. Casey Pennock is an aquatic ecologist with broad research interests spanning multiple levels of biological organization from populations to communities to ecosystems. They conduct research in a wide range of freshwater habitats, and are particularly interested in population and community dynamics and fish movement. They are interested in answering both basic and applied questions to inform conservation and management of freshwater ecosystems. Learn more about their research here.\n\n\nDr. Mack White\n Dr. Mack White is a broadly trained aquatic ecologist and postdoctoral research scientist at The Ohio State University. His research investigates how the direct and indirect effects of global change shape animal populations and communities, and how these changes propagate to influence nutrient cycling and energy flow. His research takes an integrative approach that uses a combination of field, experimental, modeling, and synthesis approaches to build predictive frameworks and provide a more holistic understanding of the natural world that informs conservation efforts, as well as ecological theory. Learn more about their research here"
+  },
+  {
+    "objectID": "index.html#about-the-dataset",
+    "href": "index.html#about-the-dataset",
+    "title": "Aquatic Ecology Seminar Spring 2026",
+    "section": "About the Dataset",
+    "text": "About the Dataset\nOhio is a water-rich state, bounded on the south by the Ohio River and the north by Lake Erie. These water bodies, as well as thousands of miles of inland streams and rivers and thousands of acres of lakes and wetlands, contribute to the quality of life of Ohio’s citizens. Ohio EPA’s Division of Surface Water supports a diverse set of programs that monitor inland lake, Lake Erie, primary headwater streams, and wetlands, in addition to its comprehensive watershed studies.\nEach year, Ohio EPA collects data from 400 to 450 stream and river sites around the state to support watershed assessment. During these studies, Ohio EPA scientists collect chemical samples, examine and count fish and aquatic insects, and take measurements of the stream. There are three major objectives for the studies:\n\nTo determine how the stream is doing compared to goals assigned in the Ohio Water Quality Standards (WQS)\nTo determine if the goals assigned to the river or stream are appropriate and attainable\nTo determine if the streams condition has changed since the last time the stream was studied.\n\nThe data gathered by a field survey is processed, evaluated and synthesized in a biological and water quality report - see Final 2024 integrated report here. The findings and conclusions of each biological and water quality study may factor into regulatory actions taken by Ohio EPA and are incorporated into Water Quality Permit Support Documents (WQPSDs), total maximum daily loads (TMDLs), State Water Quality Management Plans, the Ohio Nonpoint Source Assessment and the Ohio Water Resource Inventory (305[b] report). This information also provides the basis for the list of impaired and threatened waters required by Section 303(d) of the Clean Water Act."
+  },
+  {
+    "objectID": "data.html",
+    "href": "data.html",
+    "title": "Data",
+    "section": "",
+    "text": "This page serves as a repository to link publicly available data streams that are of interest to students and the larger analytically efforts of the class. Students, please treat this as a collaborative resource. If you bring a dataset to the class, please email the link/citation (with DOI or hyperlink) to Mack so he can add it here."
+  },
+  {
+    "objectID": "data.html#databases-data-packages-and-data-papers",
+    "href": "data.html#databases-data-packages-and-data-papers",
+    "title": "Data",
+    "section": "Databases, Data Packages, and Data Papers",
+    "text": "Databases, Data Packages, and Data Papers\n\nTrait Data Packages\nFishLife\nrfishbase\n\n\nTrait Databases\nA database of lotic invertebrate traits for North America\nFishTraits: a database of ecological and life-history traits of freshwater fishes of the United States\n\n\nTrait Data Papers\nHopper, Garrett W., Jamie R. Bucholz, Traci P. DuBose, Kaelyn J. Fogelman, Sean M. Keogh, Megan E. Kubala, Matthew B. Lodato, et al. 2023. “A Trait Dataset for Freshwater Mussels of the United States of America.” Scientific Data 10 (1): 745.\nTwardochleb, Laura, Ethan Hiltner, Matthew Pyne, and Phoebe Zarnetske. 2021. “Freshwater Insects CONUS: A Database of Freshwater Insect Occurrences and Traits for the Contiguous United States.” Global Ecology and Biogeography: A Journal of Macroecology 30 (4): 826–41."
+  },
+  {
+    "objectID": "literature.html",
+    "href": "literature.html",
+    "title": "Literature",
+    "section": "",
+    "text": "This page serves as a shared, living bibliography for the seminar. Mack will add citations for the papers discussed in and outside of class each week. The goal is to create a centralized set of references that captures key concepts and methods used in aquatic ecology - particularly those related to student’s interests.\nStudents, please treat this as a collaborative resource. If you bring a paper to the class, please email the citation (with DOI) to Mack so he can add it here."
+  },
+  {
+    "objectID": "literature.html#foundational-papers",
+    "href": "literature.html#foundational-papers",
+    "title": "Literature",
+    "section": "Foundational Papers",
+    "text": "Foundational Papers\n\nLife History\nWinemiller, Kirk O., and Kenneth A. Rose. 1992. “Patterns of Life-History Diversification in North American Fishes: Implications for Population Regulation.” Canadian Journal of Fisheries and Aquatic Sciences 49 (10): 2196–2218.\nPerkin, Joshuah S., Natalie E. Knorp, Thomas C. Boersig, Amy E. Gebhard, Lucas A. Hix, and Thomas C. Johnson. 2017. “Life History Theory Predicts Long-Term Fish Assemblage Response to Stream Impoundment.” Canadian Journal of Fisheries and Aquatic Sciences 74 (2): 228–39.\nAtkinson, Carla L., Alex J. Franzen, Garrett W. Hopper, Jonathan W. Lopez, Zachery D. Zbinden, and Caryn C. Vaughn. 2025. “Environmental Gradients Drive Convergence in Life History Strategies among Disparate but Coevolved Taxonomic Groups.” Ecology 106 (12): e70273.\n\n\nNatural Flow Regime\nPoff, N. Leroy, J. David Allan, Mark B. Bain, James R. Karr, Karen L. Prestegaard, Brian D. Richter, Richard E. Sparks, and Julie C. Stromberg. 1997. “The Natural Flow Regime.” Bioscience 47 (11): 769–84.\nLytle, David A., and N. Leroy Poff. 2004. “Adaptation to Natural Flow Regimes.” Trends in Ecology & Evolution 19 (2): 94–100.\nPoff, N. Leroy, and Julie K. H. Zimmerman. 2010. “Ecological Responses to Altered Flow Regimes: A Literature Review to Inform the Science and Management of Environmental Flows: Review of Altered Flow Regimes.” Freshwater Biology 55 (1): 194–205.\n\n\nRiver Continuum Concept (RCC)\nVannote, Robin L., G. Wayne Minshall, Kenneth W. Cummins, James R. Sedell, and Colbert E. Cushing. 1980. “The River Continuum Concept.” Canadian Journal of Fisheries and Aquatic Sciences 37 (1): 130–37.\nDoretto, Alberto, Elena Piano, and Courtney E. Larson. 2020. “The River Continuum Concept: Lessons from the Past and Perspectives for the Future.” Canadian Journal of Fisheries and Aquatic Sciences 77 (11): 1853–64.\n\n\nRiver Ecosystem Synthesis (RES)\nThorp, James H., Martin C. Thoms, and Michael D. Delong. 2006. “The Riverine Ecosystem Synthesis: Biocomplexity in River Networks across Space and Time.” River Research and Applications 22 (2): 123–47.\nMaasri, Alain, James H. Thorp, Nicholas Kotlinski, Jens Kiesel, Bolortsetseg Erdenee, and Sonja C. Jähnig. 2021. “Variation in Macroinvertebrate Community Structure of Functional Process Zones along the River Continuum: New Elements for the Interpretation of the River Ecosystem Synthesis.” River Research and Applications 37 (4): 665–74.\nThorp, James H., Martin C. Thoms, Michael D. Delong, and Alain Maasri. 2023. “The Ecological Nature of Whole River Macrosystems: New Perspectives from the Riverine Ecosystem Synthesis.” Frontiers in Ecology and Evolution 11 (1184433): 1184433."
+  },
+  {
+    "objectID": "literature.html#methodological-studies",
+    "href": "literature.html#methodological-studies",
+    "title": "Literature",
+    "section": "Methodological Studies",
+    "text": "Methodological Studies\n\nScale in Ecology\nLevin, Simon A. 1992. “The Problem of Pattern and Scale in Ecology: The Robert H. Macarthur Award Lecture.” Ecology 73 (6): 1943–67.\nCrossley, Michael S., Amanda R. Meier, Emily M. Baldwin, Lauren L. Berry, Leah C. Crenshaw, Glen L. Hartman, Doris Lagos-Kutz, et al. 2020. “No Net Insect Abundance and Diversity Declines across US Long Term Ecological Research Sites.” Nature Ecology & Evolution 4 (10): 1368–76.\n\n\nTrait-Based Ecology\nPoff, N. Leroy, Matthew I. Pyne, Brian P. Bledsoe, Christopher C. Cuhaciyan, and Daren M. Carlisle. 2010. “Developing Linkages between Species Traits and Multiscaled Environmental Variation to Explore Vulnerability of Stream Benthic Communities to Climate Change.” Journal of the North American Benthological Society 29 (4): 1441–58.\nMcLean, Matthew, David Mouillot, Martin Lindegren, Sébastien Villéger, Georg Engelhard, Juliette Murgier, and Arnaud Auber. 2019. “Fish Communities Diverge in Species but Converge in Traits over Three Decades of Warming.” Global Change Biology 25 (11): 3972–84.\nStreit, Robert P., and David R. Bellwood. 2023. “To Harness Traits for Ecology, Let’s Abandon ‘Functionality.’” Trends in Ecology & Evolution 38 (5): 402–11.\n\n\nSpace and Time\nRimmer, Langston L. H., Jacob F. Schaefer, and Melvin L. Warren. 2026. “Leveraging A Spatiotemporally Large Dataset to Test Predictions of Life History Theory in Stream Fish Communities.” Ecology of Freshwater Fish 35 (1): e70036.\nBaldigo, Barry P., Scott D. George, and Gregory B. Lawrence. 2025. “Fish-Assemblage and Water-Quality Recovery with Declining Acidic Deposition in Adirondack Mountain Streams, New York, USA.” Freshwater Science 44 (4): 443–62."
+  }
+]

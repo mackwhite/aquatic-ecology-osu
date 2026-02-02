@@ -1,0 +1,26 @@
+---
+title: "Data"
+editor: visual
+---
+
+This page serves as a repository to link publicly available data streams that are of interest to students and the larger analytically efforts of the class. Students, please treat this as a collaborative resource. If you bring a dataset to the class, please email the link/citation (with DOI or hyperlink) to Mack so he can add it here.
+
+## **Databases, Data Packages, and Data Papers**
+
+### **Trait Data Packages**
+
+[FishLife](https://james-thorson-noaa.github.io/FishLife/)
+
+[rfishbase](https://docs.ropensci.org/rfishbase/)
+
+### **Trait Databases**
+
+[A database of lotic invertebrate traits for North America](https://doi.org/10.3133/ds187)
+
+[FishTraits: a database of ecological and life-history traits of freshwater fishes of the United States](https://www.usgs.gov/publications/fishtraits-a-database-ecological-and-life-history-traits-freshwater-fishes-united)
+
+### **Trait Data Papers**
+
+Hopper, Garrett W., Jamie R. Bucholz, Traci P. DuBose, Kaelyn J. Fogelman, Sean M. Keogh, Megan E. Kubala, Matthew B. Lodato, et al. 2023. [“A Trait Dataset for Freshwater Mussels of the United States of America.”](https://doi.org/10.1038/s41597-023-02635-9) Scientific Data 10 (1): 745.
+
+Twardochleb, Laura, Ethan Hiltner, Matthew Pyne, and Phoebe Zarnetske. 2021. [“Freshwater Insects CONUS: A Database of Freshwater Insect Occurrences and Traits for the Contiguous United States.”](https://doi.org/10.1111/geb.13257) Global Ecology and Biogeography: A Journal of Macroecology 30 (4): 826–41.

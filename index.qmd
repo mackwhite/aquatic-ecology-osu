@@ -1,11 +1,50 @@
 ---
-title: "aquatic-ecology-osu"
+about:
+  id: header
+  template: trestles
+  image: images/riverchub_isaacszabo.jpg
+  image-width: 10cm
+  image-shape: round
+  links:
+    - href: https://github.com/mackwhite/aquatic-ecology-osu
+      text: Class Code
+      icon: github
+    - href: https://epa.ohio.gov/divisions-and-offices/surface-water/reports-data/statewide-biological-and-water-quality-monitoring-and-assessment
+      text: Ohio EPA
+      icon: archive-fill
+    - href: mailto:mackwhiteecology@gmail.com
+      text: Mack
+      icon: envelope-fill
 ---
 
-This is a Quarto website.
+::: {#header}
+This seminar is designed as a collaborative, research-driven experience that mirrors the process of conducting and communicating science as a team. Together, we will develop a shared research question rooted in contemporary issues in aquatic ecology, analyze empirical datasets using R, and work collectively toward drafting a manuscript suitable for submission to a peer-reviewed journal.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+### Class Meeting Time
 
-```{r}
-1 + 1
-```
+{{< fa person-chalkboard >}} Fridays 9:30-10:30 AM in Research Center Rm 124. However, student-led meetings outside of class is encouraged.
+:::
+
+## **About the Instructors**
+
+#### Dr. Casey Pennock
+
+<img src="images/casey.jpg" width="300" height="280" style="float:right; margin-left: 20px;"/> Dr. Casey Pennock is an aquatic ecologist with broad research interests spanning multiple levels of biological organization from populations to communities to ecosystems. They conduct research in a wide range of freshwater habitats, and are particularly interested in population and community dynamics and fish movement. They are interested in answering both basic and applied questions to inform conservation and management of freshwater ecosystems. Learn more about their research [here](https://u.osu.edu/pennocklab/).
+
+#### Dr. Mack White
+
+<img src="images/fun-headshot.jpeg" width="300" height="300" style="float:left; margin-right: 20px;"/> Dr. Mack White is a broadly trained aquatic ecologist and postdoctoral research scientist at The Ohio State University. His research investigates how the direct and indirect effects of global change shape animal populations and communities, and how these changes propagate to influence nutrient cycling and energy flow. His research takes an integrative approach that uses a combination of field, experimental, modeling, and synthesis approaches to build predictive frameworks and provide a more holistic understanding of the natural world that informs conservation efforts, as well as ecological theory. Learn more about their research [here](https://mackwhite.github.io/)
+
+## **About the Dataset**
+
+Ohio is a water-rich state, bounded on the south by the Ohio River and the north by Lake Erie. These water bodies, as well as thousands of miles of inland streams and rivers and thousands of acres of lakes and wetlands, contribute to the quality of life of Ohio's citizens. Ohio EPA's Division of Surface Water supports a diverse set of programs that monitor inland lake, Lake Erie, primary headwater streams, and wetlands, in addition to its comprehensive watershed studies.
+
+Each year, Ohio EPA collects data from 400 to 450 stream and river sites around the state to support watershed assessment. During these studies, Ohio EPA scientists collect chemical samples, examine and count fish and aquatic insects, and take measurements of the stream. There are three major objectives for the studies:
+
+-   To determine how the stream is doing compared to goals assigned in the [Ohio Water Quality Standards (WQS)](https://epa.ohio.gov/divisions-and-offices/surface-water/regulations/effective-rules/effective-rules)
+
+-   To determine if the goals assigned to the river or stream are appropriate and attainable
+
+-   To determine if the streams condition has changed since the last time the stream was studied.
+
+The data gathered by a field survey is processed, evaluated and synthesized in a [biological and water quality report](https://epa.ohio.gov/divisions-and-offices/surface-water/reports-data/biological-and-water-quality-reports) - see Final 2024 integrated report [here](https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/tmdl/2024intreport/Full-2024-IR.pdf). The findings and conclusions of each biological and water quality study may factor into regulatory actions taken by Ohio EPA and are incorporated into Water Quality Permit Support Documents (WQPSDs), [total maximum daily loads (TMDLs)](https://epa.ohio.gov/divisions-and-offices/surface-water/reports-data/total-maximum-daily-load-tmdl-program), State Water Quality Management Plans, the Ohio Nonpoint Source Assessment and the Ohio Water Resource Inventory (305\[b\] report). This information also provides the basis for the list of impaired and threatened waters required by Section 303(d) of the Clean Water Act.

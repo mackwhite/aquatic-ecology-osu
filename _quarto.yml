@@ -1,20 +1,36 @@
 project:
   type: website
+  # execute-dir: project
   output-dir: docs
 
 website:
-  title: "aquatic-ecology-osu"
+  title: "Aquatic Ecology Seminar Spring 2026"
+  favicon: images/fish-teach.png
   navbar:
+    background: primary
     left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
-
+      - text: "Literature"
+        href: literature.qmd
+      - text: "Data"
+        href: data.qmd
+    right: 
+      - icon: github
+        href: https://github.com/mackwhite/aquatic-ecology-seminar
+      - text: Ohio EPA
+        href: https://epa.ohio.gov/divisions-and-offices/surface-water/reports-data/statewide-biological-and-water-quality-monitoring-and-assessment
+    page-footer: 
+      # center:
+      background: secondary
+      
 format:
   html:
-    theme: cosmo
-    css: styles.css
+    theme: 
+      light: buckeyelight.scss
+      dark: buckeyedark.scss
+    mainfont: Open Sans
+    # css: styles.css
     toc: true
+    link-external-newwindow: true
+    link-external-icon: false
 
-
-
+# editor: visual

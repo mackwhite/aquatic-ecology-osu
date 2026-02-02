@@ -1,0 +1,56 @@
+/*-- scss:defaults --*/
+
+/* ============================
+   Ohio State Buckeye Palette
+   ============================ */
+
+// Core brand colors
+$scarlet-4: #7A0000;   // deep scarlet (headers, emphasis)
+$scarlet-3: #BB0000;   // official OSU scarlet
+$scarlet-2: #D62828;   // lighter scarlet (highlights)
+$scarlet-1: #F2B8B8;   // pale scarlet tint
+
+$gray-4: #333333;      // dark gray
+$gray-3: #666666;      // OSU gray
+$gray-2: #999999;
+$gray-1: #E6E6E6;
+$gray-0: #F2F2F2;
+
+$white: #FFFFFF;
+$black: #000000;
+
+// Fonts
+$font-size: 25px;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap');
+
+/* ============================
+   Base document colors
+   ============================ */
+
+$navbar-bg: $scarlet-3;     // scarlet navbar
+$navbar-fg: $white;         // navbar text
+$navbar-hl: $scarlet-1;     // active page highlight
+
+$body-bg: $white;           // clean background
+$body-color: $gray-4;       // main text color
+
+$footer-bg: $gray-4;        // dark footer
+$footer-fg: $gray-1;
+
+$link-color: $scarlet-3;    // links in scarlet
+$link-hover-color: $scarlet-4;
+
+/* ============================
+   Inline code
+   ============================ */
+
+$code-bg: $gray-0;           // subtle gray background
+$code-color: $scarlet-4;     // scarlet code text
+
+/* ============================
+   Code blocks
+   ============================ */
+
+$code-block-bg: #FAFAFA;     // light background for readability
+$code-block-border-color: $scarlet-2;
+$code-block-color: $gray-4;

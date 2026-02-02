@@ -1,0 +1,57 @@
+/*-- scss:defaults --*/
+
+/* ============================
+   Ohio State Buckeye – Dark Mode
+   ============================ */
+
+// Scarlet palette (tuned for dark backgrounds)
+$scarlet-4: #FF6A6A;   // soft scarlet highlight
+$scarlet-3: #BB0000;   // official scarlet (used sparingly)
+$scarlet-2: #8A0000;   // muted scarlet
+$scarlet-1: #4D0F0F;   // deep scarlet background tint
+
+// Grays (dark-mode friendly)
+$gray-5: #0E0E0E;      // near-black
+$gray-4: #1A1A1A;      // main background
+$gray-3: #2A2A2A;      // cards / code blocks
+$gray-2: #B3B3B3;      // secondary text
+$gray-1: #E0E0E0;      // primary text
+
+$white: #FFFFFF;
+$black: #000000;
+
+// Fonts
+$font-size: 25px;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap');
+
+/* ============================
+   Base document colors
+   ============================ */
+
+$body-bg: $gray-4;          // dark background
+$body-color: $gray-1;       // readable light text
+
+$navbar-bg: $gray-5;        // nearly black navbar
+$navbar-fg: $gray-1;        // navbar text
+$navbar-hl: $scarlet-4;     // active page highlight
+
+$footer-bg: $gray-5;
+$footer-fg: $gray-2;
+
+$link-color: $scarlet-4;
+$link-hover-color: lighten($scarlet-4, 10%);
+
+/* ============================
+   Inline code
+   ============================ */
+
+$code-bg: $gray-3;
+$code-color: $scarlet-4;
+
+/* ============================
+   Code blocks
+   ============================ */
+
+$code-block-bg: $gray-3;
+$code-block-border-color: $scarlet-2;
+$code-block-color: $gray-1;
