@@ -8,6 +8,7 @@ This page houses a curated set of code examples designed to support students as 
 Students are encouraged to explore the code, modify it for their own purposes, and combine ideas across examples as their analyses. Code examples are grouped by theme (e.g., data retrieval, modeling, visualization).
 
 ## **Data Retrieval**
+
 ### **Gathering Hydrology Data**
 
 Below we showcase code that can be used to gather data from stream gauges maintained by the United States Geological Survey (USGS) using the [`dataRetrieval`](https://cran.r-project.org/web/packages/dataRetrieval/vignettes/dataRetrieval.html) package. While some of you may be aware of (or even familiar with) the package, there are some relatively new (as of 11/2025) features outlined by USGS [here](https://waterdata.usgs.gov/blog/dataretrieval/).
@@ -26,7 +27,7 @@ librarian::shelf(tidyverse, dataRetrieval, rnaturalearth)
 
 [`librarian()`](https://cran.r-project.org/web/packages/librarian/vignettes/intro-to-librarian.html) is nice because it automatically installs, updates, and attaches packages
 
-First, we will use the `readNWISdata()` in the `dataRetrieval` package to pull all stream flow (CFS, i.e., parameter code **00060**) data **for the state of Ohio** - the default is daily average (i.e., stat code **00003* as seen in `rename()`). Check out the [link](https://waterdata.usgs.gov/code-dictionary/#parameter-codes) to peruse all the parameter codes and their associated information
+First, we will use the `readNWISdata()` in the `dataRetrieval` package to pull all stream flow (CFS, i.e., parameter code **00060**) data **for the state of Ohio** - the default is daily average (i.e., stat code \*\*00003\* as seen in `rename()`). Check out the [link](https://waterdata.usgs.gov/code-dictionary/#parameter-codes) to peruse all the parameter codes and their associated information
 
 ```{r}
 site_hydro <- readNWISdata(stateCd = 'OH',
@@ -49,6 +50,7 @@ glimpse(site_hydro)
 ```
 
 Next, we can pull out the `distinct()` sites to look up further metadata using the `readNWISsite()` function for each **site_no**
+
 ```{r}
 sites <- site_hydro |> 
       distinct(site_no)
@@ -65,7 +67,7 @@ site_info <- readNWISsite(siteNumbers = sites$site_no) |>
 glimpse(site_info)
 ```
 
-Lastly, we can pull the site hydrology and spatial information together using a `left_join()` function. 
+Lastly, we can pull the site hydrology and spatial information together using a `left_join()` function.
 
 ```{r}
 hydro <- site_hydro |> 
@@ -206,7 +208,7 @@ hydro_and_temp <- cross |>
 
 ### **Linking trait data**
 
-Below we showcase code that can be used to generate a 'species' list and link it to an existing trait dataset 
+Below we showcase code that can be used to generate a 'species' list and link it to an existing trait dataset
 
 **Housekeeping**
 
