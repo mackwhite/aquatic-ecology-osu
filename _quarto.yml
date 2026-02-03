@@ -11,6 +11,8 @@ website:
     left:
       - text: "Literature"
         href: literature.qmd
+      - text: "Code"
+        href: code.qmd
       - text: "Data"
         href: data.qmd
     right: 

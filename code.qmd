@@ -1,0 +1,331 @@
+---
+title: "Code"
+editor: visual
+---
+
+This page houses a curated set of code examples designed to support students as they develop their own analytical frameworks. Rather than prescribing a single workflow, these examples introduce a range of R packages, functions, and approaches that students may, or may not be, accustomed to using in their own work. The goal is to expose students to different ways of working with data and to help them identify tools that are most appropriate for their research questions.
+
+Students are encouraged to explore the code, modify it for their own purposes, and combine ideas across examples as their analyses. Code examples are grouped by theme (e.g., data retrieval, modeling, visualization).
+
+## **Data Retrieval**
+### **Gathering Hydrology Data**
+
+Below we showcase code that can be used to gather data from stream gauges maintained by the United States Geological Survey (USGS) using the [`dataRetrieval`](https://cran.r-project.org/web/packages/dataRetrieval/vignettes/dataRetrieval.html) package. While some of you may be aware of (or even familiar with) the package, there are some relatively new (as of 11/2025) features outlined by USGS [here](https://waterdata.usgs.gov/blog/dataretrieval/).
+
+**Housekeeping**
+
+**Load necessary packages**
+
+*if you do not have librarian installed, you will need to install it first*
+
+```{r}
+#| warning: false
+#install.packages('librarian')
+librarian::shelf(tidyverse, dataRetrieval, rnaturalearth)
+```
+
+[`librarian()`](https://cran.r-project.org/web/packages/librarian/vignettes/intro-to-librarian.html) is nice because it automatically installs, updates, and attaches packages
+
+First, we will use the `readNWISdata()` in the `dataRetrieval` package to pull all stream flow (CFS, i.e., parameter code **00060**) data **for the state of Ohio** - the default is daily average (i.e., stat code **00003* as seen in `rename()`). Check out the [link](https://waterdata.usgs.gov/code-dictionary/#parameter-codes) to peruse all the parameter codes and their associated information
+
+```{r}
+site_hydro <- readNWISdata(stateCd = 'OH',
+                          parameterCd = '00060',
+                          startDate = '2023-12-01',
+                          endDate = '2023-12-31') |> 
+      janitor::clean_names() |> 
+      rename(flow_cfs = x_00060_00003,
+             date = date_time) |>
+      mutate(year = year(date),
+             month = month(date),
+             day = day(date)) |> 
+      select(date, year, month, day, site_no, flow_cfs)
+```
+
+I generally despise capital letters in column names, so I usually clean them up using the `clean_names()` function in the [`janitor`](https://cran.r-project.org/web/packages/janitor/index.html) package. I also frequently use the `glimpse()` function to make sure my code is running as planned.
+
+```{r}
+glimpse(site_hydro)
+```
+
+Next, we can pull out the `distinct()` sites to look up further metadata using the `readNWISsite()` function for each **site_no**
+```{r}
+sites <- site_hydro |> 
+      distinct(site_no)
+
+site_info <- readNWISsite(siteNumbers = sites$site_no) |> 
+      select(site_no, station_nm, dec_lat_va, dec_long_va) |> 
+      rename(lat = dec_lat_va,
+             lon = dec_long_va,
+             river = station_nm) |> 
+      janitor::clean_names()
+```
+
+```{r}
+glimpse(site_info)
+```
+
+Lastly, we can pull the site hydrology and spatial information together using a `left_join()` function. 
+
+```{r}
+hydro <- site_hydro |> 
+      left_join(site_info) |> 
+      mutate(year = year(date),
+             month = month(date),
+             day = day(date)) |> 
+      select(date, year, month, day, river, site_no, flow_cfs, lat, lon)
+```
+
+For those not familiar, `left_join()` is one of **many joins** functions. I have attached a pretty robust introduction to these [here](https://r4ds.hadley.nz/joins.html). However, to be frank.. I rarely use anything other than `left_join()` (though see `anti_join()`), though I am certain there are reason to.
+
+```{r}
+glimpse(hydro)
+```
+
+For a look at the spatial distribution of gauges, lets do a quick plot
+
+```{r}
+#| warning: false
+hydro |> 
+      group_by(site_no, lat, lon) |> 
+      summarize(flow_m = mean(flow_cfs, na.rm = TRUE),
+                .groups = 'drop') |> 
+      ggplot(aes(x = lon, y = lat, color = log1p(flow_m))) +
+      borders("state", regions = "ohio",
+              color = "black", linewidth = 0.6, fill = NA) +
+      geom_point(size = 3, alpha = 0.9) +
+      scale_color_viridis_c(option = "magma") +
+      theme_classic() + 
+      labs(x = "Longitude", y = "Latitude",
+           color = 'log(Mean CFS)')
+```
+
+For those unfamiliar, the `borders()` function is very coarse, but good for a quick look like this
+
+Next, we will use the `readNWISdv()` in the `dataRetrieval` package to pull stream flow (CFS) data **for a list of sites**, as opposed to the entire state as done above
+
+First, we will create a list of sites with their site numbers. I have chose to use the `tribble()` function here. For those unfamiliar with `tribble()`, I have added some background information about tables, tibbles, and tribbles (oh my) [here](https://alexander-pastukhov.github.io/data-analysis-using-r-for-psychology/tables.html). When dealing with a lot of different sites it will be best to enter data into an excel document and read it in, however.
+
+```{r}
+site_hydro <- tribble(
+      ~river,                        ~siteNumber,  
+      "Scioto-Columbus",             "03227500",            
+      "Maumuee-Defiance",            "04192500",            
+      "Little Muskingum-Bloomfield", "03115400",            
+      "Little Miami-Milford",        "03245500",           
+      "Hocking-Athens",              "03159500",
+      "Olentangy-Deleware",          "03225500", 
+)
+```
+
+Now that we have our sites, it is time to pull the flow data (parameter code **00060**) for all sites using the `map()` function in the [`purrr`](https://cran.r-project.org/web/packages/purrr/purrr.pdf) package. For those unaware, the `map()` function will change your left if you let it. Ditch the for loops and join us in the tidyverse. See video [here](https://www.youtube.com/watch?v=nXQDiCTLTgU) for full explanation of the `map()` function, as well as `map_dbl()` and `map_dfr()` :)
+
+```{r}
+hydro <- site_hydro |> 
+      mutate(
+            data = map(
+                  siteNumber, 
+                  ~readNWISdv(
+                        siteNumbers = .x,
+                        parameterCd = '00060',
+                        startDate = '2023-12-01',
+                        endDate = '2023-12-31'
+                  )
+            )
+      ) |> 
+      dplyr::select(river, siteNumber, data) |> 
+      unnest(data) |> 
+      rename(flow_cfs = X_00060_00003, 
+             date = Date) |> 
+      dplyr::select(river, flow_cfs, date) |> 
+      mutate(year = year(date),
+             month = month(date),
+             day = day(date)) |> 
+      dplyr::select(date, year, month, day,
+                    river, 
+                    flow_cfs)
+```
+
+Take a quick glimpse to make sure all went as planned
+
+```{r}
+glimpse(hydro)
+```
+
+Next (and just for fun), I wanted to highlight how to use the `map2()` function, also maintained within the `purrr` package. Where `map()` iterates a function over a single vector or list, `map2()` iterates a function over (you guessed it) two vectors or lists.
+
+I have set everything up according to our first example below. However, in this example I want to pull flow and temperature data from these sites so I need to specify that in terms of parameter codes (i.e., site_params). I also need to make sure that flow and temperature data is retrieved for all sites (where available). To create a data frame with all unique combinations of site and parameter code, I used the `crossing()` function.
+
+```{r}
+site_hydro <- tribble(
+      ~river,                        ~siteNumber,  
+      "Scioto-Columbus",             "03227500",            
+      "Maumuee-Defiance",            "04192500",            
+      "Little Muskingum-Bloomfield", "03115400",            
+      "Little Miami-Milford",        "03245500",           
+      "Hocking-Athens",              "03159500",
+      "Olentangy-Deleware",          "03225500"
+)
+
+site_params <- tribble(
+      ~parameterCd, ~var,
+      '00060', 'FlowCFS',
+      '00010', 'WaterTempC'
+)
+
+cross <- crossing(site_hydro, site_params)
+```
+
+```{r}
+hydro_and_temp <- cross |> 
+      mutate(data = map2(
+            siteNumber, 
+            parameterCd,
+            ~readNWISdv(
+                  siteNumbers = .x,
+                  parameterCd = .y,
+                  startDate = "2023-12-01",
+                  endDate = "2023-12-31"
+            )
+      )) |> 
+      dplyr::select(river, siteNumber, parameterCd, var, data) |> 
+      unnest(data) |> 
+      rename(flow_cfs = X_00060_00003,
+             temp_c = X_00010_00003,
+             date = Date) |> 
+      mutate(year = year(date),
+             month = month(date),
+             day = day(date)) |> 
+      dplyr::select(date, year, month, day, river, flow_cfs, temp_c) |> 
+      pivot_longer(flow_cfs:temp_c, names_to = 'metric', values_to = 'value') |> 
+      na.omit() |> 
+      arrange(metric)
+```
+
+## **Data Wrangling**
+
+### **Linking trait data**
+
+Below we showcase code that can be used to generate a 'species' list and link it to an existing trait dataset 
+
+**Housekeeping**
+
+**Load necessary packages**
+
+*if you do not have librarian installed, you will need to install it first*
+
+```{r}
+#| warning: false
+#install.packages('librarian')
+librarian::shelf(tidyverse, skimr)
+```
+
+Similar to above, I am using the `tribble()` and `crossing()` functions to generate simulate some data. I am coupling these functions with the `rlnorm()` function create an example count dataset of fishes commonly encountered in the state of Ohio
+
+```{r}
+species <- tibble::tribble(
+      ~common_name,              ~family,            ~genus,        ~species,
+      "Largemouth Bass",         "Centrarchidae",    "Micropterus", "salmoides",
+      "Smallmouth Bass",         "Centrarchidae",    "Micropterus", "dolomieu",
+      "Bluegill",                "Centrarchidae",    "Lepomis",     "macrochirus",
+      "Channel Catfish",         "Ictaluridae",      "Ictalurus",   "punctatus",
+      "Flathead Catfish",        "Ictaluridae",      "Pylodictis",  "olivaris",
+      "Common Carp",             "Cyprinidae",       "Cyprinus",    "carpio",
+      "Gizzard Shad",            "Clupeidae",        "Dorosoma",    "cepedianum",
+      "Emerald Shiner",          "Cyprinidae",       "Notropis",    "atherinoides",
+      "Creek Chub",              "Cyprinidae",       "Semotilus",   "atromaculatus",
+      "Logperch",                "Percidae",         "Percina",     "caprodes"
+)
+
+sites <- tribble(
+      ~river,                          
+      "Scioto-Columbus",                         
+      "Maumuee-Defiance",                      
+      "Little Muskingum-Bloomfield",           
+      "Little Miami-Milford",                   
+      "Hocking-Athens",             
+      "Olentangy-Deleware",         
+)
+
+years <- tibble(year = 2000:2025)
+
+dat <- crossing(species, sites, years) |> 
+      select(year, river, common_name, family, genus, species) |> 
+      mutate(count = round(rlnorm(n(), meanlog = 1, sdlog = 1)))
+```
+
+```{r}
+glimpse(dat)
+```
+
+I am going to take a similar approach to generate an example trait dataset
+
+```{r}
+traits <- tibble::tribble(
+      ~species,
+      ~max_length_mm, ~age_maturity_yr, ~longevity_yr, ~egg_size_mm,
+      ~mean_clutch_size, ~parental_care,
+      ~larval_growth_mm_mo, ~yoy_growth_mm_yr, ~adult_growth_mm_yr,
+      ~spawn_season_d,
+      
+      "Largemouth Bass",        600, 3.5, 14, 1.8, 120000, 3, 15, 120, 40, 90,
+      "Smallmouth Bass",        550, 4.0, 12, 2.0,  90000, 3, 14, 110, 38, 80,
+      "Spotted Bass",           500, 3.0, 11, 1.7,  85000, 3, 14, 105, 36, 85,
+      "Bluegill",               300, 2.0,  8, 1.2,  45000, 2, 18,  95, 32, 110,
+      "Redear Sunfish",         350, 2.5,  9, 1.4,  52000, 2, 17, 100, 33, 105,
+      "Green Sunfish",          280, 1.8,  7, 1.1,  40000, 2, 19,  90, 30, 115,
+      
+      "Channel Catfish",        800, 5.0, 18, 5.5,  18000, 5, 10,  85, 30, 60,
+      "Flathead Catfish",      1100, 6.0, 22, 6.2,   9000, 6,  9,  75, 28, 55,
+      "Blue Catfish",          1200, 6.5, 25, 6.0,  20000, 5,  9,  80, 29, 65,
+      
+      "Common Carp",           1000, 4.0, 20, 1.5, 250000, 0, 16, 130, 42, 120,
+      "Grass Carp",            1300, 5.0, 22, 1.6, 300000, 0, 15, 135, 45, 125,
+      "Goldfish",               400, 2.0, 10, 1.3, 100000, 0, 17, 110, 35, 115,
+      
+      "Gizzard Shad",           450, 2.0, 10, 1.1, 180000, 0, 20, 140, 48, 130,
+      "Threadfin Shad",         300, 1.5,  6, 0.9, 160000, 0, 22, 150, 50, 140,
+      
+      "Emerald Shiner",         120, 1.0,  4, 0.9,  12000, 0, 25, 160, 55, 100,
+      "Sand Shiner",            140, 1.2,  5, 1.0,  15000, 0, 24, 155, 52, 105,
+      "Creek Chub",             220, 2.0,  6, 1.0,  25000, 1, 21, 145, 48, 110,
+      "Bluntnose Minnow",       110, 1.0,  3, 0.8,  10000, 0, 26, 165, 58, 95,
+      
+      "Logperch",               180, 2.5,  7, 1.3,  18000, 1, 18, 125, 40, 75,
+      "Johnny Darter",           90, 1.2,  4, 1.0,   8000, 1, 20, 135, 45, 70,
+      "Yellow Perch",           400, 3.0, 10, 2.1,  50000, 0, 16, 115, 37, 85,
+      
+      "Freshwater Drum",        700, 4.5, 16, 1.9, 200000, 0, 14, 105, 35, 95,
+      "White Crappie",          420, 3.0,  9, 1.6, 120000, 2, 17, 120, 38, 100,
+      "Black Crappie",          450, 3.2, 10, 1.7, 130000, 2, 16, 118, 37, 98
+)
+```
+
+```{r}
+glimpse(traits)
+```
+
+The first thing we will want to do is create a 'species' list. I put species in quotations, as we do not always have species-level information. All you need here is a dataset that includes all of the unique taxonomic identities present in your larger dataset
+
+```{r}
+species_list <- dat |> 
+      dplyr::select(common_name, family, genus, species) |> 
+      distinct()
+print(species_list)
+```
+
+Next, we link the trait data to our taxonomic data - ensure that you have a key column for which you can join the two discrete data streams (i.e., rename = species). If 'key column' is a new concept to you, please check out this article that does a great job discussing terminology and approaches to data wrangling and harmonization :)
+
+```{r}
+traits <- traits |> 
+      rename(common_name = species)
+
+species_traits <- species_list |> left_join(traits)
+```
+
+```{r}
+glimpse(species_traits)
+skimr::skim(species_traits)
+```
+
+In addition to my usual `glimpse()`, you will notice I used the `skim()` function from the [`skimr`](https://docs.ropensci.org/skimr/) package - super useful for a quick look at how data are distributed or if data are missing
