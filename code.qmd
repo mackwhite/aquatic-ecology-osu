@@ -78,7 +78,7 @@ hydro <- site_hydro |>
       select(date, year, month, day, river, site_no, flow_cfs, lat, lon)
 ```
 
-For those not familiar, `left_join()` is one of **many joins** functions. I have attached a pretty robust introduction to these [here](https://r4ds.hadley.nz/joins.html). However, to be frank.. I rarely use anything other than `left_join()` (though see `anti_join()`), though I am certain there are reason to.
+For those not familiar, `left_join()` is one of **many join** functions. I have attached a pretty robust introduction to these [here](https://r4ds.hadley.nz/joins.html). However, to be frank.. I rarely use anything other than `left_join()` (though see `anti_join()`), though I am certain there are reason to. Another good article [here](https://www.thedataschool.co.uk/niklas-kubus/data-connectivity-joins-unions-and-relationships-explained/).
 
 ```{r}
 glimpse(hydro)
@@ -316,7 +316,7 @@ species_list <- dat |>
 print(species_list)
 ```
 
-Next, we link the trait data to our taxonomic data - ensure that you have a key column for which you can join the two discrete data streams (i.e., rename = species). If 'key column' is a new concept to you, please check out this article that does a great job discussing terminology and approaches to data wrangling and harmonization :)
+Next, we link the trait data to our taxonomic data - ensure that you have a key column for which you can join the two discrete data streams (i.e., rename = species). If 'key column' is a new concept to you, please check out [this article](https://www.thedataschool.co.uk/niklas-kubus/data-connectivity-joins-unions-and-relationships-explained/) that does a great job discussing terminology and approaches to connecting data :)
 
 ```{r}
 traits <- traits |> 

@@ -12,9 +12,7 @@ about:
     - href: https://epa.ohio.gov/divisions-and-offices/surface-water/reports-data/statewide-biological-and-water-quality-monitoring-and-assessment
       text: Ohio EPA
       icon: archive-fill
-    - href: mailto:mackwhiteecology@gmail.com
-      text: Mack
-      icon: envelope-fill
+
 ---
 
 ::: {#header}
@@ -22,7 +20,9 @@ This seminar is designed as a collaborative, research-driven experience that mir
 
 ### Class Meeting Time
 
-{{< fa person-chalkboard >}} Fridays 9:30-10:30 AM in Research Center Rm 124. However, student-led meetings outside of class is encouraged.
+{{< fa person-chalkboard >}} Fridays 9:30-10:30 AM in Research Center Rm 124. However, student-led meetings outside of class is encouraged. 
+
+*photo by [Isaac Szabo](https://www.isaacszabo.com/)*
 :::
 
 ## **About the Instructors**
@@ -48,3 +48,5 @@ Each year, Ohio EPA collects data from 400 to 450 stream and river sites around 
 -   To determine if the streams condition has changed since the last time the stream was studied.
 
 The data gathered by a field survey is processed, evaluated and synthesized in a [biological and water quality report](https://epa.ohio.gov/divisions-and-offices/surface-water/reports-data/biological-and-water-quality-reports) - see Final 2024 integrated report [here](https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/tmdl/2024intreport/Full-2024-IR.pdf). The findings and conclusions of each biological and water quality study may factor into regulatory actions taken by Ohio EPA and are incorporated into Water Quality Permit Support Documents (WQPSDs), [total maximum daily loads (TMDLs)](https://epa.ohio.gov/divisions-and-offices/surface-water/reports-data/total-maximum-daily-load-tmdl-program), State Water Quality Management Plans, the Ohio Nonpoint Source Assessment and the Ohio Water Resource Inventory (305\[b\] report). This information also provides the basis for the list of impaired and threatened waters required by Section 303(d) of the Clean Water Act.
+
+**Text Credit:** [Ohio Environmental Protection Agency](https://epa.ohio.gov/home)

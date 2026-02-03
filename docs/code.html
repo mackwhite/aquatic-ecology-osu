@@ -272,7 +272,7 @@ $ lon     &lt;dbl&gt; -81.00120, -80.97120, -81.19705, -81.07176, -80.95426, -80
 <pre><code>Joining with `by = join_by(site_no)`</code></pre>
 </div>
 </div>
-<p>For those not familiar, <code>left_join()</code> is one of <strong>many joins</strong> functions. I have attached a pretty robust introduction to these <a href="https://r4ds.hadley.nz/joins.html">here</a>. However, to be frank.. I rarely use anything other than <code>left_join()</code> (though see <code>anti_join()</code>), though I am certain there are reason to.</p>
+<p>For those not familiar, <code>left_join()</code> is one of <strong>many join</strong> functions. I have attached a pretty robust introduction to these <a href="https://r4ds.hadley.nz/joins.html">here</a>. However, to be frank.. I rarely use anything other than <code>left_join()</code> (though see <code>anti_join()</code>), though I am certain there are reason to. Another good article <a href="https://www.thedataschool.co.uk/niklas-kubus/data-connectivity-joins-unions-and-relationships-explained/">here</a>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(hydro)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -518,7 +518,7 @@ $ common_name &lt;chr&gt; "Bluegill", "Bluegill", "Bluegill", "Bluegill", "Blueg
 $ family      &lt;chr&gt; "Centrarchidae", "Centrarchidae", "Centrarchidae", "Centra…
 $ genus       &lt;chr&gt; "Lepomis", "Lepomis", "Lepomis", "Lepomis", "Lepomis", "Le…
 $ species     &lt;chr&gt; "macrochirus", "macrochirus", "macrochirus", "macrochirus"…
-$ count       &lt;dbl&gt; 1, 1, 17, 7, 1, 13, 3, 1, 0, 18, 10, 2, 4, 1, 9, 4, 0, 0, …</code></pre>
+$ count       &lt;dbl&gt; 4, 10, 1, 2, 10, 1, 17, 14, 3, 0, 5, 23, 4, 1, 6, 2, 10, 1…</code></pre>
 </div>
 </div>
 <p>I am going to take a similar approach to generate an example trait dataset</p>
@@ -602,7 +602,7 @@ $ spawn_season_d      &lt;dbl&gt; 90, 80, 85, 110, 105, 115, 60, 55, 65, 120, 12
 10 Smallmouth Bass  Centrarchidae Micropterus dolomieu     </code></pre>
 </div>
 </div>
-<p>Next, we link the trait data to our taxonomic data - ensure that you have a key column for which you can join the two discrete data streams (i.e., rename = species). If ‘key column’ is a new concept to you, please check out this article that does a great job discussing terminology and approaches to data wrangling and harmonization :)</p>
+<p>Next, we link the trait data to our taxonomic data - ensure that you have a key column for which you can join the two discrete data streams (i.e., rename = species). If ‘key column’ is a new concept to you, please check out <a href="https://www.thedataschool.co.uk/niklas-kubus/data-connectivity-joins-unions-and-relationships-explained/">this article</a> that does a great job discussing terminology and approaches to connecting data :)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>traits <span class="ot">&lt;-</span> traits <span class="sc">|&gt;</span> </span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rename</span>(<span class="at">common_name =</span> species)</span>
