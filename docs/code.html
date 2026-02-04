@@ -475,7 +475,7 @@ $ flow_cfs &lt;dbl&gt; 382, 327, 238, 229, 255, 279, 237, 227, 351, 530, 372, 78
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages('librarian')</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>librarian<span class="sc">::</span><span class="fu">shelf</span>(tidyverse, skimr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Similar to above, I am using the <code>tribble()</code> and <code>crossing()</code> functions to generate simulate some data. I am coupling these functions with the <code>rlnorm()</code> function create an example count dataset of fishes commonly encountered in the state of Ohio</p>
+<p>Similar to above, I am using the <code>tribble()</code> and <code>crossing()</code> functions to generate simulate some data. I am coupling these functions with the <code>rlnorm()</code> function to create an example count dataset of fishes commonly encountered in the state of Ohio</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>species <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span>common_name,              <span class="sc">~</span>family,            <span class="sc">~</span>genus,        <span class="sc">~</span>species,</span>
@@ -518,7 +518,7 @@ $ common_name &lt;chr&gt; "Bluegill", "Bluegill", "Bluegill", "Bluegill", "Blueg
 $ family      &lt;chr&gt; "Centrarchidae", "Centrarchidae", "Centrarchidae", "Centra…
 $ genus       &lt;chr&gt; "Lepomis", "Lepomis", "Lepomis", "Lepomis", "Lepomis", "Le…
 $ species     &lt;chr&gt; "macrochirus", "macrochirus", "macrochirus", "macrochirus"…
-$ count       &lt;dbl&gt; 4, 10, 1, 2, 10, 1, 17, 14, 3, 0, 5, 23, 4, 1, 6, 2, 10, 1…</code></pre>
+$ count       &lt;dbl&gt; 3, 2, 6, 1, 5, 1, 0, 4, 1, 1, 3, 6, 2, 4, 3, 0, 4, 10, 12,…</code></pre>
 </div>
 </div>
 <p>I am going to take a similar approach to generate an example trait dataset</p>

@@ -222,7 +222,7 @@ Below we showcase code that can be used to generate a 'species' list and link it
 librarian::shelf(tidyverse, skimr)
 ```
 
-Similar to above, I am using the `tribble()` and `crossing()` functions to generate simulate some data. I am coupling these functions with the `rlnorm()` function create an example count dataset of fishes commonly encountered in the state of Ohio
+Similar to above, I am using the `tribble()` and `crossing()` functions to generate simulate some data. I am coupling these functions with the `rlnorm()` function to create an example count dataset of fishes commonly encountered in the state of Ohio
 
 ```{r}
 species <- tibble::tribble(
