@@ -159,11 +159,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#data-retrieval" id="toc-data-retrieval" class="nav-link active" data-scroll-target="#data-retrieval"><strong>Data Retrieval</strong></a>
   <ul class="collapse">
-  <li><a href="#gathering-hydrology-data" id="toc-gathering-hydrology-data" class="nav-link" data-scroll-target="#gathering-hydrology-data"><strong>Gathering Hydrology Data</strong></a></li>
+  <li><a href="#gathering-hydrology-data" id="toc-gathering-hydrology-data" class="nav-link" data-scroll-target="#gathering-hydrology-data"><strong>Gathering hydrology data</strong></a></li>
   </ul></li>
   <li><a href="#data-wrangling" id="toc-data-wrangling" class="nav-link" data-scroll-target="#data-wrangling"><strong>Data Wrangling</strong></a>
   <ul class="collapse">
   <li><a href="#linking-trait-data" id="toc-linking-trait-data" class="nav-link" data-scroll-target="#linking-trait-data"><strong>Linking trait data</strong></a></li>
+  </ul></li>
+  <li><a href="#data-exploration" id="toc-data-exploration" class="nav-link" data-scroll-target="#data-exploration"><strong>Data Exploration</strong></a>
+  <ul class="collapse">
+  <li><a href="#exploring-oepa-data" id="toc-exploring-oepa-data" class="nav-link" data-scroll-target="#exploring-oepa-data"><strong>Exploring OEPA data</strong></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -193,7 +197,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="data-retrieval" class="level2">
 <h2 class="anchored" data-anchor-id="data-retrieval"><strong>Data Retrieval</strong></h2>
 <section id="gathering-hydrology-data" class="level3">
-<h3 class="anchored" data-anchor-id="gathering-hydrology-data"><strong>Gathering Hydrology Data</strong></h3>
+<h3 class="anchored" data-anchor-id="gathering-hydrology-data"><strong>Gathering hydrology data</strong></h3>
 <p>Below we showcase code that can be used to gather data from stream gauges maintained by the United States Geological Survey (USGS) using the <a href="https://cran.r-project.org/web/packages/dataRetrieval/vignettes/dataRetrieval.html"><code>dataRetrieval</code></a> package. While some of you may be aware of (or even familiar with) the package, there are some relatively new (as of 11/2025) features outlined by USGS <a href="https://waterdata.usgs.gov/blog/dataretrieval/">here</a>.</p>
 <p><strong>Housekeeping</strong></p>
 <p><strong>Load necessary packages</strong></p>
@@ -518,7 +522,7 @@ $ common_name &lt;chr&gt; "Bluegill", "Bluegill", "Bluegill", "Bluegill", "Blueg
 $ family      &lt;chr&gt; "Centrarchidae", "Centrarchidae", "Centrarchidae", "Centra…
 $ genus       &lt;chr&gt; "Lepomis", "Lepomis", "Lepomis", "Lepomis", "Lepomis", "Le…
 $ species     &lt;chr&gt; "macrochirus", "macrochirus", "macrochirus", "macrochirus"…
-$ count       &lt;dbl&gt; 3, 2, 6, 1, 5, 1, 0, 4, 1, 1, 3, 6, 2, 4, 3, 0, 4, 10, 12,…</code></pre>
+$ count       &lt;dbl&gt; 2, 1, 6, 3, 4, 7, 2, 6, 10, 3, 10, 21, 5, 2, 4, 2, 2, 2, 3…</code></pre>
 </div>
 </div>
 <p>I am going to take a similar approach to generate an example trait dataset</p>
@@ -908,8 +912,233 @@ $ spawn_season_d      &lt;dbl&gt; 110, 60, 120, 110, 100, 55, 130, 90, 75, 80</c
 </div>
 </div>
 <p>In addition to my usual <code>glimpse()</code>, you will notice I used the <code>skim()</code> function from the <a href="https://docs.ropensci.org/skimr/"><code>skimr</code></a> package - super useful for a quick look at how data are distributed or if data are missing</p>
+</section>
+</section>
+<section id="data-exploration" class="level2">
+<h2 class="anchored" data-anchor-id="data-exploration"><strong>Data Exploration</strong></h2>
+<section id="exploring-oepa-data" class="level3">
+<h3 class="anchored" data-anchor-id="exploring-oepa-data"><strong>Exploring OEPA data</strong></h3>
+<p>Below we showcase code that can be used to explore the OEPA data. This will look a bit different than CAP code, but should give the same result :)</p>
+<p><strong>Housekeeping</strong></p>
+<p><strong>Load necessary packages</strong></p>
+<p><em>if you do not have librarian installed, you will need to install it first</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages('librarian')</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>librarian<span class="sc">::</span><span class="fu">shelf</span>(tidyverse, vegan, ggplot2, cowplot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Set up and define custom functions</strong></p>
+<p>I carry this function across nearly all of my code - though <code>skimr()</code> has a simialr summary statistic.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>nacheck <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>      na_count_per_column <span class="ot">&lt;-</span> <span class="fu">sapply</span>(df, <span class="cf">function</span>(x)</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">sum</span>(<span class="fu">is.na</span>(x)))</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">print</span>(na_count_per_column)</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You will need to read the datasets in from OneDrive or your local machine. I removed the <code>glimpse()</code> of each major dataset since the website is public. However, it is usually good practice to check ’er out when you read ’er in.</p>
+<p><strong>Load necessary data</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>fish <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../Collaborative/OEPA/localdata/fish.rds"</span>) <span class="sc">|&gt;</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>()</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>bugs <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../Collaborative/OEPA/localdata/bugs.rds"</span>) <span class="sc">|&gt;</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>()</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>bugcodes <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../Collaborative/OEPA/localdata/bugcodes.rds"</span>) <span class="sc">|&gt;</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>()</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>stations <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../Collaborative/OEPA/localdata/stations.rds"</span>) <span class="sc">|&gt;</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>()</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>fincode <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../Collaborative/OEPA/localdata/fincode.rds"</span>) <span class="sc">|&gt;</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="starting-with-fish-data" class="level4">
+<h4 class="anchored" data-anchor-id="starting-with-fish-data"><strong>Starting with fish data</strong></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>dat1 <span class="ot">&lt;-</span> fish <span class="sc">|&gt;</span> <span class="fu">left_join</span>(stations) <span class="sc">|&gt;</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>      <span class="do">### level one filter</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>      <span class="co"># filter(!dist &lt; 100 &amp; da &lt; 200) |&gt;</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>      <span class="do">### level two filter</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>      <span class="co"># filter(!dist &lt; 300 &amp; da &gt; 200 &amp; gear == 'A') |&gt;</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>      <span class="do">### level three filter - CAP standard</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(geartype <span class="sc">!=</span> <span class="st">'NONSTANDARD'</span>) <span class="sc">|&gt;</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>      <span class="do">### separate out huc levels</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(</span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">huc12 =</span> huc,</span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">huc8 =</span> <span class="fu">str_remove</span>(huc, <span class="st">"-.*"</span>),</span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">huc6 =</span> <span class="fu">str_sub</span>(huc8, <span class="dv">1</span>, <span class="dv">6</span>),</span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">huc4 =</span> <span class="fu">str_sub</span>(huc8, <span class="dv">1</span>, <span class="dv">4</span>)</span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">|&gt;</span></span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>      <span class="do">### remove hybrid fishes and unspecified catfishes - CAP preference</span></span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(fishname, <span class="st">" x "</span>), fishname <span class="sc">!=</span> <span class="st">"Unspecified Catfish"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a>      <span class="do">### filter out under-represented hucs - based on CAP review</span></span>
+<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(<span class="sc">!</span>huc4 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"0512"</span>, <span class="st">"0412"</span>, <span class="st">""</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">storesheet =</span> <span class="fu">paste</span>(storet, sheet, <span class="at">sep =</span> <span class="st">"_"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb56-20"><a href="#cb56-20" aria-hidden="true" tabindex="-1"></a>      <span class="do">### classify big and small rivers ---</span></span>
+<span id="cb56-21"><a href="#cb56-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">river_class =</span> <span class="fu">case_when</span>(da <span class="sc">&gt;</span> <span class="dv">500</span> <span class="sc">~</span> <span class="st">'Large'</span>, </span>
+<span id="cb56-22"><a href="#cb56-22" aria-hidden="true" tabindex="-1"></a>                                     <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">'Small'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(storet, rivercode, rm, da)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nacheck</span>(dat1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      storet        fyear      storeyr         gear     geartype        sheet 
+           0            0            0            0            0            0 
+   rivercode           rm           da      fincode     fishname       counts 
+           0            0            0            0            0            0 
+      weight         dist         name   station_id        alife        river 
+       40800            0            0            0          103          117 
+         alu         cold        basin        dcode          huc        latdd 
+           0         7179            0            0            0            0 
+      longdd station_type       county      badflag         refs          eco 
+           0            0            0            0            0            0 
+       huc12         huc8         huc6         huc4   storesheet  river_class 
+           0            0            0            0            0            0 </code></pre>
+</div>
+</div>
+<p>Check out the distribution of gear types and number of unique HUCs</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>dat1 <span class="sc">|&gt;</span> <span class="fu">select</span>(gear, geartype) <span class="sc">|&gt;</span> <span class="fu">group_by</span>(gear, geartype) <span class="sc">|&gt;</span> <span class="fu">count</span>() <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+# Groups:   gear, geartype [4]
+  gear  geartype      n
+  &lt;chr&gt; &lt;chr&gt;     &lt;int&gt;
+1 D     WADE     156784
+2 A     BOAT     155283
+3 E     LONGLINE 124494
+4 F     BACKPACK   6997</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>dat1 <span class="sc">|&gt;</span> <span class="fu">distinct</span>(huc12) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1482</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>dat1 <span class="sc">|&gt;</span> <span class="fu">distinct</span>(huc8) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 40</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>dat1 <span class="sc">|&gt;</span> <span class="fu">distinct</span>(huc6) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>dat1 <span class="sc">|&gt;</span> <span class="fu">distinct</span>(huc4) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7</code></pre>
+</div>
+</div>
+<p>Explore fish survey effort</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>dat1 <span class="sc">|&gt;</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(huc4, fyear) <span class="sc">|&gt;</span></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarize</span>(</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">surveys =</span> <span class="fu">n_distinct</span>(storesheet),</span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">sites =</span> <span class="fu">n_distinct</span>(storet),</span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">'drop'</span></span>
+<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">|&gt;</span></span>
+<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> fyear, <span class="at">y =</span> surveys)) <span class="sc">+</span></span>
+<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">'identity'</span>, <span class="at">fill =</span> <span class="st">'steelblue'</span>) <span class="sc">+</span></span>
+<span id="cb70-10"><a href="#cb70-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">facet_wrap</span>( <span class="sc">~</span> huc4, <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">scales =</span> <span class="st">"fixed"</span>) <span class="sc">+</span></span>
+<span id="cb70-11"><a href="#cb70-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">400</span>)) <span class="sc">+</span></span>
+<span id="cb70-12"><a href="#cb70-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Number of Sites per Year by HUC4"</span>, <span class="at">x =</span> <span class="st">"Time Period"</span>, <span class="at">y =</span> <span class="st">"Number of Sites"</span>) <span class="sc">+</span></span>
+<span id="cb70-13"><a href="#cb70-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb70-14"><a href="#cb70-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb70-15"><a href="#cb70-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 row containing missing values or values outside the scale range
+(`geom_bar()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="code_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="moving-on-to-bug-data" class="level4">
+<h4 class="anchored" data-anchor-id="moving-on-to-bug-data"><strong>Moving on to bug data</strong></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>dat2 <span class="ot">&lt;-</span> bugs <span class="sc">|&gt;</span> <span class="fu">left_join</span>(stations) <span class="sc">|&gt;</span> <span class="fu">left_join</span>(bugcodes) <span class="sc">|&gt;</span> </span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>      <span class="do">### separate out huc levels</span></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">huc12 =</span> huc,</span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">huc8 =</span> <span class="fu">str_remove</span>(huc, <span class="st">"-.*"</span>),</span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">huc6 =</span> <span class="fu">str_sub</span>(huc8, <span class="dv">1</span>, <span class="dv">6</span>),</span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">huc4 =</span> <span class="fu">str_sub</span>(huc8, <span class="dv">1</span>, <span class="dv">4</span>)</span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">|&gt;</span></span>
+<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a>      <span class="do">### filter out under-represented hucs - based on CAP review</span></span>
+<span id="cb72-10"><a href="#cb72-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(<span class="sc">!</span>huc4 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"0512"</span>, <span class="st">"0412"</span>, <span class="st">""</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb72-11"><a href="#cb72-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">storesheet =</span> <span class="fu">paste</span>(storet, sheet, <span class="at">sep =</span> <span class="st">"_"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb72-12"><a href="#cb72-12" aria-hidden="true" tabindex="-1"></a>      <span class="do">### classify big and small rivers ---</span></span>
+<span id="cb72-13"><a href="#cb72-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">river_class =</span> <span class="fu">case_when</span>(</span>
+<span id="cb72-14"><a href="#cb72-14" aria-hidden="true" tabindex="-1"></a>            da <span class="sc">&gt;</span> <span class="dv">500</span> <span class="sc">~</span> <span class="st">'Large'</span>, </span>
+<span id="cb72-15"><a href="#cb72-15" aria-hidden="true" tabindex="-1"></a>            <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">'Small'</span>)</span>
+<span id="cb72-16"><a href="#cb72-16" aria-hidden="true" tabindex="-1"></a>            )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(latdd, longdd, storet, da)`
+Joining with `by = join_by(taxa)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nacheck</span>(dat2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               station                  latdd                 longdd 
+                     0                      0                      0 
+             watertype                 storet                storeyr 
+                     0                      0                      0 
+                 sheet                  byear                     da 
+                     0                      0                      0 
+                  taxa               taxaname                  quant 
+                     0                      0                 176593 
+                  qual                     pa                   name 
+                     0                      0                      0 
+            station_id                  alife                  river 
+                     0                    608                   1477 
+                   alu                   cold                  basin 
+                     0                  25114                      0 
+             rivercode                     rm                  dcode 
+                     0                      0                      0 
+                   huc           station_type                 county 
+                     0                      0                      0 
+               badflag                   refs                    eco 
+                     0                      0                      0 
+          species_code           species_name          itis_taxon_id 
+                     0                      0                      0 
+           family_code            family_name           reference_id 
+                 25346                  25313                  78803 
+         species_group       trophic_function            is_tolerant 
+                     0                   2757                      0 
+   pollution_tolerance           is_sensitive           is_coldwater 
+                  3473                      0                      0 
+       ohio_endangered                is_rare is_small_river_species 
+                604491                      0                      0 
+is_large_river_species              max_count    last_updated_userid 
+                     0                 606422                      0 
+     last_updated_date     weighted_ici_score     weighted_ici_count 
+                     0                   1432                   1432 
+              wqx_name                  huc12                   huc8 
+                     0                      0                      0 
+                  huc6                   huc4             storesheet 
+                     0                      0                      0 
+           river_class 
+                     0 </code></pre>
+</div>
+</div>
+<p>Explore invertebrate survey effort</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>dat2 <span class="sc">|&gt;</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(huc4, byear) <span class="sc">|&gt;</span></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarize</span>(</span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">surveys =</span> <span class="fu">n_distinct</span>(storesheet),</span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">sites =</span> <span class="fu">n_distinct</span>(storet),</span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">'drop'</span></span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">|&gt;</span></span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> byear, <span class="at">y =</span> surveys)) <span class="sc">+</span></span>
+<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">'identity'</span>, <span class="at">fill =</span> <span class="st">'steelblue'</span>) <span class="sc">+</span></span>
+<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">facet_wrap</span>( <span class="sc">~</span> huc4, <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">scales =</span> <span class="st">"fixed"</span>) <span class="sc">+</span></span>
+<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">400</span>)) <span class="sc">+</span></span>
+<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Number of Sites per Year by HUC4"</span>, <span class="at">x =</span> <span class="st">"Time Period"</span>, <span class="at">y =</span> <span class="st">"Number of Sites"</span>) <span class="sc">+</span></span>
+<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="code_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
+</section>
 </section>
 </section>
 

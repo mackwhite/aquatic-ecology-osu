@@ -9,7 +9,7 @@ Students are encouraged to explore the code, modify it for their own purposes, a
 
 ## **Data Retrieval**
 
-### **Gathering Hydrology Data**
+### **Gathering hydrology data**
 
 Below we showcase code that can be used to gather data from stream gauges maintained by the United States Geological Survey (USGS) using the [`dataRetrieval`](https://cran.r-project.org/web/packages/dataRetrieval/vignettes/dataRetrieval.html) package. While some of you may be aware of (or even familiar with) the package, there are some relatively new (as of 11/2025) features outlined by USGS [here](https://waterdata.usgs.gov/blog/dataretrieval/).
 
@@ -331,3 +331,149 @@ skimr::skim(species_traits)
 ```
 
 In addition to my usual `glimpse()`, you will notice I used the `skim()` function from the [`skimr`](https://docs.ropensci.org/skimr/) package - super useful for a quick look at how data are distributed or if data are missing
+
+## **Data Exploration**
+
+### **Exploring OEPA data**
+
+Below we showcase code that can be used to explore the OEPA data. This will look a bit different than CAP code, but should give the same result :)
+
+**Housekeeping**
+
+**Load necessary packages**
+
+*if you do not have librarian installed, you will need to install it first*
+
+```{r}
+#| warning: false
+#install.packages('librarian')
+librarian::shelf(tidyverse, vegan, ggplot2, cowplot)
+```
+
+**Set up and define custom functions**
+
+I carry this function across nearly all of my code - though `skimr()` has a simialr summary statistic.
+
+```{r}
+nacheck <- function(df) {
+      na_count_per_column <- sapply(df, function(x)
+            sum(is.na(x)))
+      print(na_count_per_column)
+}
+```
+
+You will need to read the datasets in from OneDrive or your local machine. I removed the `glimpse()` of each major dataset since the website is public. However, it is usually good practice to check 'er out when you read 'er in.
+
+**Load necessary data**
+
+```{r}
+fish <- readRDS("../Collaborative/OEPA/localdata/fish.rds") |> janitor::clean_names()
+
+bugs <- readRDS("../Collaborative/OEPA/localdata/bugs.rds") |> janitor::clean_names()
+
+bugcodes <- readRDS("../Collaborative/OEPA/localdata/bugcodes.rds") |> janitor::clean_names()
+
+stations <- readRDS("../Collaborative/OEPA/localdata/stations.rds") |> janitor::clean_names()
+
+fincode <- readRDS("../Collaborative/OEPA/localdata/fincode.rds") |> janitor::clean_names()
+```
+
+#### **Starting with fish data**
+
+```{r}
+dat1 <- fish |> left_join(stations) |>
+      ### level one filter
+      # filter(!dist < 100 & da < 200) |>
+      ### level two filter
+      # filter(!dist < 300 & da > 200 & gear == 'A') |>
+      ### level three filter - CAP standard
+      filter(geartype != 'NONSTANDARD') |>
+      ### separate out huc levels
+      mutate(
+            huc12 = huc,
+            huc8 = str_remove(huc, "-.*"),
+            huc6 = str_sub(huc8, 1, 6),
+            huc4 = str_sub(huc8, 1, 4)
+      ) |>
+      ### remove hybrid fishes and unspecified catfishes - CAP preference
+      filter(!str_detect(fishname, " x "), fishname != "Unspecified Catfish") |>
+      ### filter out under-represented hucs - based on CAP review
+      filter(!huc4 %in% c("0512", "0412", "")) |>
+      mutate(storesheet = paste(storet, sheet, sep = "_")) |>
+      ### classify big and small rivers ---
+      mutate(river_class = case_when(da > 500 ~ 'Large', 
+                                     TRUE ~ 'Small'))
+nacheck(dat1)
+```
+
+Check out the distribution of gear types and number of unique HUCs
+
+```{r}
+dat1 |> select(gear, geartype) |> group_by(gear, geartype) |> count() |> arrange(desc(n))
+dat1 |> distinct(huc12) |> nrow()
+dat1 |> distinct(huc8) |> nrow()
+dat1 |> distinct(huc6) |> nrow()
+dat1 |> distinct(huc4) |> nrow()
+```
+
+Explore fish survey effort 
+
+```{r}
+dat1 |>
+      group_by(huc4, fyear) |>
+      summarize(
+            surveys = n_distinct(storesheet),
+            sites = n_distinct(storet),
+            .groups = 'drop'
+      ) |>
+      ggplot(aes(x = fyear, y = surveys)) +
+      geom_bar(stat = 'identity', fill = 'steelblue') +
+      facet_wrap( ~ huc4, ncol = 1, scales = "fixed") +
+      scale_y_continuous(limits = c(0, 400)) +
+      labs(title = "Number of Sites per Year by HUC4", x = "Time Period", y = "Number of Sites") +
+      theme_classic() +
+      theme(strip.text = element_text(size = 12),
+            axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+#### **Moving on to bug data**
+
+```{r}
+dat2 <- bugs |> left_join(stations) |> left_join(bugcodes) |> 
+      ### separate out huc levels
+      mutate(
+            huc12 = huc,
+            huc8 = str_remove(huc, "-.*"),
+            huc6 = str_sub(huc8, 1, 6),
+            huc4 = str_sub(huc8, 1, 4)
+      ) |>
+      ### filter out under-represented hucs - based on CAP review
+      filter(!huc4 %in% c("0512", "0412", "")) |>
+      mutate(storesheet = paste(storet, sheet, sep = "_")) |>
+      ### classify big and small rivers ---
+      mutate(river_class = case_when(
+            da > 500 ~ 'Large', 
+            TRUE ~ 'Small')
+            )
+nacheck(dat2)
+```
+
+Explore invertebrate survey effort 
+
+```{r}
+dat2 |>
+      group_by(huc4, byear) |>
+      summarize(
+            surveys = n_distinct(storesheet),
+            sites = n_distinct(storet),
+            .groups = 'drop'
+      ) |>
+      ggplot(aes(x = byear, y = surveys)) +
+      geom_bar(stat = 'identity', fill = 'steelblue') +
+      facet_wrap( ~ huc4, ncol = 1, scales = "fixed") +
+      scale_y_continuous(limits = c(0, 400)) +
+      labs(title = "Number of Sites per Year by HUC4", x = "Time Period", y = "Number of Sites") +
+      theme_classic() +
+      theme(strip.text = element_text(size = 12),
+            axis.text.x = element_text(angle = 45, hjust = 1))
+```
