@@ -160,6 +160,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#data-retrieval" id="toc-data-retrieval" class="nav-link active" data-scroll-target="#data-retrieval"><strong>Data Retrieval</strong></a>
   <ul class="collapse">
   <li><a href="#gathering-hydrology-data" id="toc-gathering-hydrology-data" class="nav-link" data-scroll-target="#gathering-hydrology-data"><strong>Gathering hydrology data</strong></a></li>
+  <li><a href="#gathering-land-use-data" id="toc-gathering-land-use-data" class="nav-link" data-scroll-target="#gathering-land-use-data"><strong>Gathering land use data</strong></a></li>
   </ul></li>
   <li><a href="#data-wrangling" id="toc-data-wrangling" class="nav-link" data-scroll-target="#data-wrangling"><strong>Data Wrangling</strong></a>
   <ul class="collapse">
@@ -466,6 +467,10 @@ $ flow_cfs &lt;dbl&gt; 382, 327, 238, 229, 255, 279, 237, 227, 351, 530, 372, 78
 </div>
 </div>
 </section>
+<section id="gathering-land-use-data" class="level3">
+<h3 class="anchored" data-anchor-id="gathering-land-use-data"><strong>Gathering land use data</strong></h3>
+<p>CAP presented the <a href="https://cran.r-project.org/web/packages/StreamCatTools/StreamCatTools.pdf"><code>StreamCatTools</code></a> package for pulling land use data. While I have not had time to put together a formal demonstration of its utility, I have linked the packages GitHub site <a href="https://usepa.github.io/StreamCatTools/index.html">here</a></p>
+</section>
 </section>
 <section id="data-wrangling" class="level2">
 <h2 class="anchored" data-anchor-id="data-wrangling"><strong>Data Wrangling</strong></h2>
@@ -522,7 +527,7 @@ $ common_name &lt;chr&gt; "Bluegill", "Bluegill", "Bluegill", "Bluegill", "Blueg
 $ family      &lt;chr&gt; "Centrarchidae", "Centrarchidae", "Centrarchidae", "Centra…
 $ genus       &lt;chr&gt; "Lepomis", "Lepomis", "Lepomis", "Lepomis", "Lepomis", "Le…
 $ species     &lt;chr&gt; "macrochirus", "macrochirus", "macrochirus", "macrochirus"…
-$ count       &lt;dbl&gt; 2, 1, 6, 3, 4, 7, 2, 6, 10, 3, 10, 21, 5, 2, 4, 2, 2, 2, 3…</code></pre>
+$ count       &lt;dbl&gt; 1, 19, 2, 2, 2, 2, 11, 3, 8, 2, 2, 3, 1, 0, 4, 7, 4, 3, 3,…</code></pre>
 </div>
 </div>
 <p>I am going to take a similar approach to generate an example trait dataset</p>

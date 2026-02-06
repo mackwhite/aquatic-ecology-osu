@@ -204,6 +204,10 @@ hydro_and_temp <- cross |>
       arrange(metric)
 ```
 
+### **Gathering land use data**
+
+CAP presented the [`StreamCatTools`](https://cran.r-project.org/web/packages/StreamCatTools/StreamCatTools.pdf) package for pulling land use data. While I have not had time to put together a formal demonstration of its utility, I have linked the packages GitHub site [here](https://usepa.github.io/StreamCatTools/index.html)
+
 ## **Data Wrangling**
 
 ### **Linking trait data**
@@ -416,7 +420,7 @@ dat1 |> distinct(huc6) |> nrow()
 dat1 |> distinct(huc4) |> nrow()
 ```
 
-Explore fish survey effort 
+Explore fish survey effort
 
 ```{r}
 dat1 |>
@@ -458,7 +462,7 @@ dat2 <- bugs |> left_join(stations) |> left_join(bugcodes) |>
 nacheck(dat2)
 ```
 
-Explore invertebrate survey effort 
+Explore invertebrate survey effort
 
 ```{r}
 dat2 |>
