@@ -39,7 +39,7 @@ Maasri, Alain, James H. Thorp, Nicholas Kotlinski, Jens Kiesel, Bolortsetseg Erd
 
 Thorp, James H., Martin C. Thoms, Michael D. Delong, and Alain Maasri. 2023. [“The Ecological Nature of Whole River Macrosystems: New Perspectives from the Riverine Ecosystem Synthesis.”](https://doi.org/10.3389/fevo.2023.1184433) Frontiers in Ecology and Evolution 11 (1184433): 1184433.
 
-## **Methodological Studies**
+## **Methodological Papers**
 
 #### **Scale in Ecology**
 
@@ -60,3 +60,9 @@ Streit, Robert P., and David R. Bellwood. 2023. [“To Harness Traits for Ecolog
 Rimmer, Langston L. H., Jacob F. Schaefer, and Melvin L. Warren. 2026. [“Leveraging A Spatiotemporally Large Dataset to Test Predictions of Life History Theory in Stream Fish Communities.”](https://doi.org/10.1111/eff.70036) Ecology of Freshwater Fish 35 (1): e70036.
 
 Baldigo, Barry P., Scott D. George, and Gregory B. Lawrence. 2025. [“Fish-Assemblage and Water-Quality Recovery with Declining Acidic Deposition in Adirondack Mountain Streams, New York, USA.”](https://doi.org/10.1086/738871) Freshwater Science 44 (4): 443–62.
+
+## **OEPA Papers**
+
+Norton, Susan B., Susan M. Cormier, Marc Smith, and R. Christian Jones. 2000. [“Can Biological Assessments Discriminate among Types of Stress? A Case Study from the Eastern Corn Belt Plains Ecoregion.”](https://academic.oup.com/etc/article/19/4/1113/7830681) Environmental Toxicology and Chemistry 19 (4): 1113–19.
+
+Schubauer-Berigan, Mary K., Marc Smith, Jeff Hopkins, and Susan M. Cormier. 2000. [“Using Historical Biological Data to Evaluate Status and Trends in the Big Darby Creek Watershed (Ohio, USA).”](https://academic.oup.com/etc/article/19/4/1097/7830702) Environmental Toxicology and Chemistry 19 (4): 1097–1105.
