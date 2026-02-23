@@ -17,6 +17,10 @@ Perkin, Joshuah S., Natalie E. Knorp, Thomas C. Boersig, Amy E. Gebhard, Lucas A
 
 Atkinson, Carla L., Alex J. Franzen, Garrett W. Hopper, Jonathan W. Lopez, Zachery D. Zbinden, and Caryn C. Vaughn. 2025. [“Environmental Gradients Drive Convergence in Life History Strategies among Disparate but Coevolved Taxonomic Groups.”](https://doi.org/10.1002/ecy.70273) Ecology 106 (12): e70273.
 
+Poff, LeReoy N., Julian D. Olden, Nicole K.M. Viera, Debra S. Finn, Mark P. Simmons, and Boris C. Kondratieff. 2006. ["Functional trait niches of North American lotic insects: traits-based ecological applications in light of phylogenetic relationships."](https://doi.org/10.1899/0887-3593(2006)025[0730:FTNONA]2.0.CO;2) J.N. Am. Benthol. Soc. 25 (4): 730-755.
+
+Verberk, Wilco C.E.P., Henk Siepel, and Hans Esselink. 2008. ["Life-history strategies in freshwater macroinvertebrates."](https://doi.org/10.1111/j.1365-2427.2008.02035.x) Freshwater Biology 53 (9): 1722-1738.
+
 #### **Natural Flow Regime**
 
 Poff, N. Leroy, J. David Allan, Mark B. Bain, James R. Karr, Karen L. Prestegaard, Brian D. Richter, Richard E. Sparks, and Julie C. Stromberg. 1997. [“The Natural Flow Regime.”](https://doi.org/10.2307/1313099) Bioscience 47 (11): 769–84.

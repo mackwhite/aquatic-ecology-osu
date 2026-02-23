@@ -24,3 +24,5 @@ This page serves as a repository to link publicly available data streams that ar
 Hopper, Garrett W., Jamie R. Bucholz, Traci P. DuBose, Kaelyn J. Fogelman, Sean M. Keogh, Megan E. Kubala, Matthew B. Lodato, et al. 2023. [“A Trait Dataset for Freshwater Mussels of the United States of America.”](https://doi.org/10.1038/s41597-023-02635-9) Scientific Data 10 (1): 745.
 
 Twardochleb, Laura, Ethan Hiltner, Matthew Pyne, and Phoebe Zarnetske. 2021. [“Freshwater Insects CONUS: A Database of Freshwater Insect Occurrences and Traits for the Contiguous United States.”](https://doi.org/10.1111/geb.13257) Global Ecology and Biogeography: A Journal of Macroecology 30 (4): 826–41.
+
+Viera, Nicole K.M., N. LeRoy Poff, Daren M. Carlisle, Stephen R Moulton II, Marci L. Koski, and Boris C. Kondratieff. 2006. ["A Database of Lotic Invertebrate Traits for North America."](https://pubs.usgs.gov/ds/ds187/). U.S. Geological Survey Data Series.
