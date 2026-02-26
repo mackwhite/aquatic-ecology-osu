@@ -21,6 +21,8 @@ Poff, LeReoy N., Julian D. Olden, Nicole K.M. Viera, Debra S. Finn, Mark P. Simm
 
 Verberk, Wilco C.E.P., Henk Siepel, and Hans Esselink. 2008. ["Life-history strategies in freshwater macroinvertebrates."](https://doi.org/10.1111/j.1365-2427.2008.02035.x) Freshwater Biology 53 (9): 1722-1738.
 
+Hitt, Nathaniel P., Karli M. Rogers, Zachary A. Kelly, Josh Henesy, and John E. Mullican. 2020. ["Fish life history trends indicate increasing flow stochasticity in an unregulated river"](https://doi.org/10.1002/ecs2.3026) Ecosphere 11(2): e03026
+
 #### **Natural Flow Regime**
 
 Poff, N. Leroy, J. David Allan, Mark B. Bain, James R. Karr, Karen L. Prestegaard, Brian D. Richter, Richard E. Sparks, and Julie C. Stromberg. 1997. [“The Natural Flow Regime.”](https://doi.org/10.2307/1313099) Bioscience 47 (11): 769–84.
