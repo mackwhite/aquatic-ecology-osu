@@ -481,3 +481,241 @@ dat2 |>
       theme(strip.text = element_text(size = 12),
             axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+
+## **Clipping shapefiles in R**
+
+### **Example from Mack PhD Work**
+
+Below we showcase code that can be used to generate a clip a shapefile to the extent of another shapefile in R
+
+**Housekeeping**
+
+**Load necessary packages**
+
+*if you do not have librarian installed, you will need to install it first*
+
+```{r}
+#| warning: false
+#install.packages('librarian')
+librarian::shelf(tidyverse, sf, mapview, ggspatial)
+```
+
+**Load necessary data**
+
+```{r}
+fl <- st_read('../../../R/shapefiles/fce_shapefiles/Florida_State_Boundary.shp')
+```
+
+Plot to check out the spatial file Here I use `plot()` with `st_geometry()` to take a quick look. The `st_geometry()` function removes the attributes from the spatial file so you see only see one file. See below
+
+```{r}
+plot(fl)
+```
+
+versus...
+
+```{r}
+plot(st_geometry(fl))
+```
+
+However, the `mapview()` is also really cool.. lets you pan in and out on your spatial file
+
+```{r}
+mapview(fl)
+```
+
+**Load and reproject the shapefiles we put together in QGIS**
+
+Here, we load the and re-project the Shark River .shp file. We re-project this to UTM Zone 17N (EPSG:26917) which is representative of Southwest Florida
+
+```{r}
+river <- st_read('../../../R/shapefiles/sharkriver-shapefiles/sharkriver_clean/SharkRiverClean.shp')
+river <- st_transform(river, crs = 26917)
+plot(st_geometry(river))
+```
+
+Do the same thing for our 'river zones'
+```{r}
+zones <- st_read('../../../R/shapefiles/sharkriver-shapefiles/zones_clean/SharkRiverZonesClean.shp')
+zones <- st_transform(zones, crs = 26917)
+plot(st_geometry(zones))
+```
+
+#### **Clipping the Shark River shapefile to the River Zone shapefile**
+
+First, validate the geometry of each .shp using the `st_make_valid()`. This repairs any self-intersection, duplicate vertices, etc. that would otherwise result in failure of the clipping operation
+```{r}
+river_valid <- st_make_valid(river)
+zones_valid <- st_make_valid(zones) |> rename(Zone = geometry)
+```
+
+Finally, clip the river to the zone shapefile so we don't have sections of river showing outside of the zones in our map
+```{r}
+river_clipped <- st_intersection(river_valid, zones_valid)
+```
+
+For fun, create an inset of the state of Florida 
+
+```{r}
+inset <- ggplot() +
+      
+      # adding in the state of FL 
+      geom_sf(data = fl, fill = 'grey', color = 'black') +
+      
+      # create rectangle to separate from larger map
+      geom_rect(aes(xmin = -81.252753, xmax = -80.749544,
+                    ymin = 25.266087, ymax = 25.576524),
+                color = 'black', fill = NA, linewidth = 1) +
+      
+      # place the name of the state we are looking at in the GOM
+      annotate("text", x = -85.34, y = 24.97, label = "Florida, USA",
+               fontface = "bold", size = 5) +
+      
+      theme_bw() +
+      theme(
+            axis.title = element_blank(),       
+            axis.text  = element_blank(),       
+            axis.ticks = element_blank(),
+            axis.ticks.length = unit(0, "pt"),
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            
+            # make the ocean blue :)
+            panel.background = element_rect(fill = 'aliceblue', color = NA),  
+            panel.border  = element_rect(fill = NA, color = 'black', linewidth = 2),
+            
+            # limits margins so it fits nicely in the larger map
+            plot.margin   = grid::unit(c(0, 0, 0, 0), "null"), 
+            legend.position = 'none'
+      )
+
+inset 
+```
+Create a label df for the different parts of the map. I spent a lot of time (too much to admit) trying to line these up. I am sure there is a better way to do it, but this does work :)
+
+```{r}
+labels <- data.frame(
+      name = c("Tarpon Bay", "Gulf of \nMexico", "Rookery Branch", 
+               "Otter Creek"),
+      lon = c(-80.972, -81.145, -80.866, -80.940),
+      lat = c(25.424, 25.3592, 25.445, 25.459)
+) |> 
+      st_as_sf(coords = c("lon", "lat"), crs = 4326) |> 
+      st_transform(crs = 26917)
+```
+
+Check out your awesome map with clipped river
+```{r}
+ggplot() +
+
+      # lay the map of FL down
+      geom_sf(data = fl, fill = 'grey', color = NA) +
+
+      # lay the river down
+      geom_sf(data = river_clipped, fill = 'aliceblue', color = NA) +
+
+      # lay your zones down
+      geom_sf(data = zones_valid, fill = NA, alpha = 0.2,
+              aes(color = 'Zone'), linewidth = 1) +
+
+      # place your labels in the map
+      geom_sf_text(data = labels, aes(label = name), size = 4, fontface = "italic") +
+
+      # add in your scale bar
+      annotation_scale(location = "br", width_hint = 0.3,
+                       bar_cols = c("black", "aliceblue"), text_cex = 1.0) +
+      
+      # add in your north arrow
+      annotation_north_arrow(location = "tl", which_north = "true",
+                             style = north_arrow_fancy_orienteering(
+                                   fill = c("black", "aliceblue"),
+                                   line_col = "black"),
+                             height = unit(2.0, "cm"), width = unit(2.0, "cm")) +
+
+      # zoom to Shark River extent lat/lon limits
+      coord_sf(xlim = c(-81.15, -80.855), ylim = c(25.32, 25.465)) +
+
+      # manually assign colors for points/lines on the map - just zones here
+      scale_color_manual(values = c("Zone" = "black")) +
+
+      theme_bw() +
+
+      # Embed the inset map as a grob - stands for graphical object
+      annotation_custom(
+            ggplotGrob(inset),
+            xmin = -80.935217, xmax = -80.843471,
+            ymin = 25.317539,  ymax = 25.415402) +
+
+      theme(
+            axis.title  = element_blank(),
+            axis.text   = element_blank(),
+            axis.ticks  = element_blank(),
+            panel.grid  = element_blank(),
+            panel.background = element_rect(fill = "aliceblue"),  # ocean fill
+            plot.title  = element_text(size = 18, hjust = 0.5),
+            legend.title = element_blank(),
+            legend.background = element_rect(fill = 'aliceblue'),
+            legend.position   = c(0.928, 0.695),  # normalized (0–1) position within panel
+            legend.box.background = element_rect(fill = NA, color = 'black', linewidth = 2),
+            legend.text = element_text(size = 12, face = 'bold')
+      )
+```
+
+Check out what the river shapefile would look like if it wasn't clipped
+
+```{r}
+ggplot() +
+
+      # lay the map of FL down
+      geom_sf(data = fl, fill = 'grey', color = NA) +
+
+      # lay the river down
+      geom_sf(data = river_valid, fill = 'aliceblue', color = NA) +
+
+      # lay your zones down
+      geom_sf(data = zones_valid, fill = NA, alpha = 0.2,
+              aes(color = 'Zone'), linewidth = 1) +
+
+      # place your labels in the map
+      geom_sf_text(data = labels, aes(label = name), size = 4, fontface = "italic") +
+
+      # add in your scale bar
+      annotation_scale(location = "br", width_hint = 0.3,
+                       bar_cols = c("black", "aliceblue"), text_cex = 1.0) +
+      
+      # add in your north arrow
+      annotation_north_arrow(location = "tl", which_north = "true",
+                             style = north_arrow_fancy_orienteering(
+                                   fill = c("black", "aliceblue"),
+                                   line_col = "black"),
+                             height = unit(2.0, "cm"), width = unit(2.0, "cm")) +
+
+      # zoom to Shark River extent lat/lon limits
+      coord_sf(xlim = c(-81.15, -80.855), ylim = c(25.32, 25.465)) +
+
+      # manually assign colors for points/lines on the map - just zones here
+      scale_color_manual(values = c("Zone" = "black")) +
+
+      theme_bw() +
+
+      # Embed the inset map as a grob - stands for graphical object
+      annotation_custom(
+            ggplotGrob(inset),
+            xmin = -80.935217, xmax = -80.843471,
+            ymin = 25.317539,  ymax = 25.415402) +
+
+      theme(
+            axis.title  = element_blank(),
+            axis.text   = element_blank(),
+            axis.ticks  = element_blank(),
+            panel.grid  = element_blank(),
+            panel.background = element_rect(fill = "aliceblue"),  # ocean fill
+            plot.title  = element_text(size = 18, hjust = 0.5),
+            legend.title = element_blank(),
+            legend.background = element_rect(fill = 'aliceblue'),
+            legend.position   = c(0.928, 0.695),  # normalized (0–1) position within panel
+            legend.box.background = element_rect(fill = NA, color = 'black', linewidth = 2),
+            legend.text = element_text(size = 12, face = 'bold')
+      )
+```
+
