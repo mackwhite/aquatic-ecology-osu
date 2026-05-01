@@ -535,6 +535,7 @@ plot(st_geometry(river))
 ```
 
 Do the same thing for our 'river zones'
+
 ```{r}
 zones <- st_read('../../../R/shapefiles/sharkriver-shapefiles/zones_clean/SharkRiverZonesClean.shp')
 zones <- st_transform(zones, crs = 26917)
@@ -544,17 +545,19 @@ plot(st_geometry(zones))
 #### **Clipping the Shark River shapefile to the River Zone shapefile**
 
 First, validate the geometry of each .shp using the `st_make_valid()`. This repairs any self-intersection, duplicate vertices, etc. that would otherwise result in failure of the clipping operation
+
 ```{r}
 river_valid <- st_make_valid(river)
 zones_valid <- st_make_valid(zones) |> rename(Zone = geometry)
 ```
 
 Finally, clip the river to the zone shapefile so we don't have sections of river showing outside of the zones in our map
+
 ```{r}
 river_clipped <- st_intersection(river_valid, zones_valid)
 ```
 
-For fun, create an inset of the state of Florida 
+For fun, create an inset of the state of Florida
 
 ```{r}
 inset <- ggplot() +
@@ -591,6 +594,7 @@ inset <- ggplot() +
 
 inset 
 ```
+
 Create a label df for the different parts of the map. I spent a lot of time (too much to admit) trying to line these up. I am sure there is a better way to do it, but this does work :)
 
 ```{r}
@@ -605,6 +609,7 @@ labels <- data.frame(
 ```
 
 Check out your awesome map with clipped river
+
 ```{r}
 ggplot() +
 
@@ -719,3 +724,108 @@ ggplot() +
       )
 ```
 
+## **Hierarchical Partitioning**
+
+### **Example from preliminary analyses of mussel life history data**
+
+Below we showcase code that can be used to partition independent effects of predictor metrics nested within each group of predictors used in variance partitioning analyses :)
+
+**Housekeeping**
+
+**Load necessary packages**
+
+*if you do not have librarian installed, you will need to install it first*
+
+```{r}
+#| warning: false
+#| eval: false
+#install.packages('librarian')
+librarian::shelf(
+      tidyverse, ggplot2, skimr, patchwork, cowplot, tibble, vegan, rdacca.hp, eulerr, corrplot, grid
+      )
+```
+
+First, need to run base function `rdacc.hp()` - see [here](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13800) to learn more about the package and why it was authored in the first place
+
+```{r}
+#| eval: false
+hp_res <- rdacca.hp(
+      # distance matrix (same one from dbRDA goes here)
+      dist_mat,
+      # predictors from each of the forward-selected models go here
+      pred_mat[, c("magnitude", "developed", "pasture_hay", "watershed_area")]
+)
+```
+
+Next, we generate a dataframe that we can visualize the data from using the `ggplot` package. First we are extracting the results (i.e., hp_res$Hier.part)
+
+```{r}
+#| eval: false
+hp_df <- hp_res$Hier.part |>
+      as.data.frame() |>
+      # convert row names to column (new column is variable) for plotting
+      rownames_to_column("variable") |>           
+      mutate(
+            # create the label for each predictor
+            # here I am rounding the % independent effect and adding a "%" for clarity
+            label = paste0(round(`I.perc(%)`, 1), "%"),
+            # assign colors - whatever we want, but should be consistent
+            color = case_when(
+                  # hydrology 
+                  variable %in% c("magnitude")                ~ "#4E7D96", 
+                  # land use
+                  variable %in% c("developed", "pasture_hay") ~ "#A47551", 
+                  # connectivity
+                  variable %in% c("watershed_area")           ~ "#4A7C59" 
+            )
+      )
+```
+
+Plot it out :)
+
+```{r}
+#| eval: false
+hp_df |>
+      # ordering the variables so they cascade down (relies on coordflip)
+      mutate(variable = factor(variable, levels = variable[order(`I.perc(%)`)])) |> 
+      ggplot(aes(x = variable, y = `I.perc(%)`, fill = color)) +
+      geom_col(width = 0.6, color = "white", alpha = 0.6) +
+      geom_text(aes(label = label), hjust = -0.2, fontface = "bold", size = 4) +
+      scale_fill_identity() +
+      #renaming predictor variables for clarity
+      scale_x_discrete(labels = c(
+            "magnitude"      = "Flow\nmagnitude",
+            "developed"      = "Developed\n(% cover)",
+            "pasture_hay"    = "Pasture/hay\n(% cover)",
+            "watershed_area" = "Watershed\narea"
+      )) +
+      scale_y_continuous(
+            # can play with this - could probably do 0,40 for most
+            limits = c(0, 50),
+            expand = c(0, 0),
+            name   = "Independent effects (%)"
+      ) +
+      labs(x = NULL) +
+      # flips plot on side - looks better IMO
+      coord_flip() +
+      # remove grid lines
+      theme_classic() +
+      # typical theme I use for most of my figs but can be tweaked
+      theme(
+            strip.text        = element_text(size = 16, face = "bold", colour = "black"),
+            strip.background  = element_blank(),
+            axis.text.x       = element_text(size = 12, face = "bold", color = "black"),
+            axis.text.y       = element_text(size = 12, face = "bold", color = "black", hjust = 0.5),
+            axis.title        = element_text(size = 14, face = "bold", color = "black"),
+            plot.title        = element_text(size = 16, face = "bold", color = "black", hjust = 0.5),
+            panel.grid.major  = element_blank(),
+            panel.grid.minor  = element_blank(),
+            panel.border      = element_blank(),
+            panel.background  = element_blank(),
+            axis.line         = element_line(color = "black"),
+            legend.position   = "right",
+            legend.text       = element_text(size = 7, face = "bold", color = "black"),
+            legend.background = element_blank(),
+            legend.title      = element_text(size = 10, face = "bold", color = "black", hjust = 0.5)
+      )
+```

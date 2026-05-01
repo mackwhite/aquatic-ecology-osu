@@ -61,6 +61,12 @@ McLean, Matthew, David Mouillot, Martin Lindegren, Sébastien Villéger, Georg E
 
 Streit, Robert P., and David R. Bellwood. 2023. [“To Harness Traits for Ecology, Let’s Abandon ‘Functionality.’”](https://doi.org/10.1016/j.tree.2022.11.009) Trends in Ecology & Evolution 38 (5): 402–11.
 
+#### **Variance and Hierarchical Partitioning**
+
+Mruzek, J. L., L. M. Bower, M. C. Scott, K. Kubach, and B. K. Peoples. 2026. ["Relative Influence of Flow Regime, Natural and Anthropogenic Environment on Multidimensional Stream Fish Diversity."](https://doi.org/10.1002/eco.70185) Ecohydrology 19 (2): e70185.
+
+Lai, J., Y. Zou, J. Zhang, and P. R. Peres-Neto. 2022. ["Generalizing Hierarchical and Variation Partitioning in Multiple Regression and Canonical Analyses Using the rdacca.hp R Package."](https://doi.org/10.1111/2041-210X.13800) Methods in Ecology and Evolution 13 (4): 782–788.
+
 #### **Space and Time**
 
 Rimmer, Langston L. H., Jacob F. Schaefer, and Melvin L. Warren. 2026. [“Leveraging A Spatiotemporally Large Dataset to Test Predictions of Life History Theory in Stream Fish Communities.”](https://doi.org/10.1111/eff.70036) Ecology of Freshwater Fish 35 (1): e70036.
@@ -76,3 +82,9 @@ Schubauer-Berigan, Mary K., Marc Smith, Jeff Hopkins, and Susan M. Cormier. 2000
 Yoder, Chris O., Edward T Rankin, Marc A. Smith, Brian C. Alsdorf, David J. Altfater, Charles E. Boucher, Robert J. Miltner, Dennis E. Mishne, Randall E. Sanders, and Roger F. Thoma. 2005. [Changes in Fish Assemblage Status in Ohio's Nonwadeable Rivers and Streams over Two Decades](https://www.researchgate.net/profile/Roger-Thoma/publication/260158637_Changes_in_fish_assemblage_status_in_Ohio's_nonwadeable_rivers_and_streams_over_two_decades/links/00b4952fdee474a26a000000/Changes-in-fish-assemblage-status-in-Ohios-nonwadeable-rivers-and-streams-over-two-decades.pdf). American Fisheries Society Symposium 45:000-000
 
 Yoder, Chris O., Edward T Rankin, Marc A. Smith, Brian C. Alsdorf, David J. Altfater, Charles E. Boucher, Robert J. Miltner, Dennis E. Mishne, Randall E. Sanders, and Roger F. Thoma. 2019. [Degradation and Recovery of Scioto River (Ohio, USA) Fish Assemblages from Presettlement to Present-Day Conditions](https://fisheries.org/doi/9781934874554-ch10/). American Fisheries Society Symposium 45:000-000
+
+## **Big Picture Papers**
+
+Tickner, D., J. J. Opperman, R. Abell, M. Acreman, A. H. Arthington, S. E. Bunn, S. J. Cooke, et al. 2020. ["Bending the Curve of Global Freshwater Biodiversity Loss: An Emergency Recovery Plan."](https://doi.org/10.1093/biosci/biaa002) BioScience 70 (4): 330–342.
+
+Vörösmarty, C. J., P. B. McIntyre, M. O. Gessner, D. Dudgeon, A. Prusevich, P. Green, S. Glidden, et al. 2010. ["Global Threats to Human Water Security and River Biodiversity."](https://doi.org/10.1038/nature09440) Nature 467 (7315): 555–561.
